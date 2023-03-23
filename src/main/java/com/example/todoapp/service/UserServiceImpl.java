@@ -9,13 +9,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Override
     public User registerUser(RegistrationRequest registrationRequest) throws Exception {
         // kiểm tra xem tên đăng nhập hoặc email đã được sử dụng hay chưa
@@ -44,5 +41,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void save(User user) {
+
     }
 }
