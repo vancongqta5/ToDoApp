@@ -23,8 +23,19 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
-        User user = userService.registerUser(registrationRequest);
-        return ResponseEntity.ok(user);
+        if (userService.existsByUsername(registrationRequest.getUsername())) {
+            throw new RuntimeException("Username already exists");
+        }
+        if (userService.existsByEmail(registrationRequest.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+        User user = new User();
+        user.setUsername(registrationRequest.getUsername());
+        user.setEmail(registrationRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        userService.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
 
 }
