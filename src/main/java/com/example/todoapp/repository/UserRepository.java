@@ -6,6 +6,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
-    User save(User user);
+    User findByUsername(String username); // Tìm kiếm User theo username
+    User findByEmail(String email); // Tìm kiếm User theo email
+
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
+//    User save(User user); // Lưu User vào cơ sở dữ liệu
+//    void deleteById(Long id); // Xóa User theo id
 }
