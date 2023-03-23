@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import javax.validation.Valid;
+import java.net.URI;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -22,9 +24,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
         if (userService.existsByUsername(registrationRequest.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
@@ -35,9 +37,11 @@ public class UserController {
         user.setUsername(registrationRequest.getUsername());
         user.setEmail(registrationRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-        userService.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(user.getId())
+                .toUri();
+        return ResponseEntity.created(location).body("User registered successfully");
     }
-
 
 }
