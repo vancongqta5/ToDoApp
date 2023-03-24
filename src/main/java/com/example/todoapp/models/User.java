@@ -72,13 +72,6 @@ public class User {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public List<String> getRoles() {
-        List<String> roles = new ArrayList<>();
-        if (this.role != null) {
-            roles.add(this.role.getName());
-        }
-        return roles;
-    }
 
     public void setRole(Role role) {
         this.role = role;
