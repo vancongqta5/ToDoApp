@@ -1,4 +1,5 @@
 package com.example.todoapp.models;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -71,8 +72,12 @@ public class User {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public Role getRole() {
-        return role;
+    public List<String> getRoles() {
+        List<String> roles = new ArrayList<>();
+        if (this.role != null) {
+            roles.add(this.role.getName());
+        }
+        return roles;
     }
 
     public void setRole(Role role) {
@@ -86,4 +91,6 @@ public class User {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
+
 }

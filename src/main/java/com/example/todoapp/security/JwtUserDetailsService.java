@@ -1,6 +1,5 @@
 package com.example.todoapp.security;
 
-import com.example.todoapp.model.User;
 import com.example.todoapp.models.User;
 import com.example.todoapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,6 @@ public class JwtUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), user.getAuthorities());
+                user.getUsername(), user.getPassword(), user.getRoles());
     }
 }
