@@ -1,7 +1,7 @@
 package com.example.todoapp.repository;
 
+import com.example.todoapp.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
-import javax.management.relation.Role;
 import java.util.Optional;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
