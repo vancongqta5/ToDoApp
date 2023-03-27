@@ -50,12 +50,26 @@ public class AuthController {
     }
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+
         if (userRepository.existsByUsername(registerDto.getUsername())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
+        }
+        if (registerDto.getUsername() == null || registerDto.getUsername().isEmpty()) {
+            return new ResponseEntity<>("Username cannot be empty!", HttpStatus.BAD_REQUEST);
+        }
+
+        //email
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
+            return new ResponseEntity<>("Email is already registered!", HttpStatus.BAD_REQUEST);
+        }
+
+        if (registerDto.getEmail() == null || registerDto.getEmail().isEmpty()) {
+            return new ResponseEntity<>("Email cannot be empty!", HttpStatus.BAD_REQUEST);
         }
 
         UserEntity user = new UserEntity();
         user.setUsername(registerDto.getUsername());
+        user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
 
         Role roles = roleRepository.findByName("USER").get();
