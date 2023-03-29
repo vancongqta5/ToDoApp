@@ -16,11 +16,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Collections;
 
 @RestController
@@ -54,34 +57,34 @@ public class AuthController {
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterDto registerDto, BindingResult result) {
+        if (result.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            for (ObjectError error : result.getAllErrors()) {
+                sb.append(error.getDefaultMessage()).append("\n");
+            }
+            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+        }
 
         if (userRepository.existsByUsername(registerDto.getUsername())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
-        if (registerDto.getUsername() == null || registerDto.getUsername().isEmpty()) {
-            return new ResponseEntity<>("Username cannot be empty!", HttpStatus.BAD_REQUEST);
-        }
 
-        //email
         if (userRepository.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Email is already registered!", HttpStatus.BAD_REQUEST);
-        }
-
-        if (registerDto.getEmail() == null || registerDto.getEmail().isEmpty()) {
-            return new ResponseEntity<>("Email cannot be empty!", HttpStatus.BAD_REQUEST);
         }
 
         UserEntity user = new UserEntity();
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
-        user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
+        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
         Role roles = roleRepository.findByName("USER").get();
         user.setRoles(Collections.singletonList(roles));
 
         userRepository.save(user);
 
-        return new ResponseEntity<>("User registered success!", HttpStatus.OK);
+        return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
     }
+
 }
