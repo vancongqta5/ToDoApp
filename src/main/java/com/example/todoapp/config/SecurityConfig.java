@@ -1,5 +1,7 @@
-package com.example.todoapp.security;
+package com.example.todoapp.config;
 
+import com.example.todoapp.security.CustomUserDetailsService;
+import com.example.todoapp.security.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
