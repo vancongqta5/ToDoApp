@@ -83,7 +83,7 @@ public class AuthController {
         if (userRepository.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Email is already registered!", HttpStatus.BAD_REQUEST);
         }
-
+        // Tạo tài khoản người dùng mới
         UserEntity user = new UserEntity();
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
