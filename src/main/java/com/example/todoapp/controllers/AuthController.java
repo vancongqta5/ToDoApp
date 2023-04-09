@@ -47,24 +47,16 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDto loginDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            String errorMessage = bindingResult.getFieldError().getDefaultMessage();
-            return new ResponseEntity<>(new AuthResponseDTO(errorMessage), HttpStatus.BAD_REQUEST);
-//            return new ResponseEntity<>(new AuthResponseDTO("Validation error"), HttpStatus.BAD_REQUEST);
-        }
-        try {
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDto loginDto) {
+
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginDto.getUsername(),
                             loginDto.getPassword()));
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtGenerator.generateToken(authentication);
-            return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
-        } catch (AuthenticationException e) {
-            String errorMessage = "User account or password incorrect";
-            return new ResponseEntity<>(new AuthResponseDTO(errorMessage), HttpStatus.BAD_REQUEST);
-        }
+            return ResponseEntity.ok(new AuthResponseDTO(token));
     }
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody @Valid RegisterDto registerDto, BindingResult result) {
@@ -94,7 +86,7 @@ public class AuthController {
 
         userRepository.save(user);
 
-        return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("User registered successfully!", HttpStatus.CREATED);
     }
 
 }
