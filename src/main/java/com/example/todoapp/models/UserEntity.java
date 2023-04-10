@@ -1,13 +1,18 @@
 package com.example.todoapp.models;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class UserEntity {
 
@@ -18,7 +23,7 @@ public class UserEntity {
     private String username;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "password", nullable = false, columnDefinition = "VARCHAR(255) AFTER email")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
