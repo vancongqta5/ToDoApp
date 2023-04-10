@@ -1,13 +1,14 @@
 package com.example.todoapp.controllers;
 
+import com.example.todoapp.dto.ApiResponse;
 import com.example.todoapp.dto.AuthResponseDTO;
 import com.example.todoapp.dto.LoginDto;
-import com.example.todoapp.dto.RegisterDto;
 import com.example.todoapp.models.Role;
 import com.example.todoapp.models.UserEntity;
 import com.example.todoapp.repository.RoleRepository;
 import com.example.todoapp.repository.UserRepository;
 import com.example.todoapp.security.JWTGenerator;
+import com.example.todoapp.dto.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,70 +24,69 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private JWTGenerator jwtGenerator;
-
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
-                          RoleRepository roleRepository, PasswordEncoder passwordEncoder,JWTGenerator jwtGenerator) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtGenerator = jwtGenerator;
-    }
+    AuthenticationManager authenticationManager;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    RoleRepository roleRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    JWTGenerator jwtGenerator;
+
     @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDto loginDto) {
 
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginDto.getUsername(),
-                            loginDto.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getUsername(),
+                        loginDto.getPassword()));
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = jwtGenerator.generateToken(authentication);
-            return ResponseEntity.ok(new AuthResponseDTO(token));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtGenerator.generateToken(authentication);
+        return ResponseEntity.ok(new AuthResponseDTO(token));
     }
+
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody @Valid RegisterDto registerDto, BindingResult result) {
+    public ResponseEntity<ApiResponse> register(@RequestBody @Valid RegisterDto registerDto, BindingResult result,
+                                                UriComponentsBuilder uriBuilder) {
         if (result.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (ObjectError error : result.getAllErrors()) {
-                sb.append(error.getDefaultMessage()).append("\n");
-            }
-            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Invalid request parameters"));
+        }
+        String username = registerDto.getUsername();
+        if (userRepository.existsByUsername(username)) {
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Username '" + username + "' is already taken"));
         }
 
-        if (userRepository.existsByUsername(registerDto.getUsername())) {
-            return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
+        String email = registerDto.getEmail();
+        if (userRepository.existsByEmail(email)) {
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Email '" + email + "' is already registered"));
         }
 
-        if (userRepository.existsByEmail(registerDto.getEmail())) {
-            return new ResponseEntity<>("Email is already registered!", HttpStatus.BAD_REQUEST);
-        }
-        // Tạo tài khoản người dùng mới
         UserEntity user = new UserEntity();
-        user.setUsername(registerDto.getUsername());
-        user.setEmail(registerDto.getEmail());
+        user.setUsername(username);
+        user.setEmail(email);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-        Role roles = roleRepository.findByName("USER").get();
-        user.setRoles(Collections.singletonList(roles));
+        Role role = roleRepository.findByName("USER")
+                .orElseThrow(() -> new RuntimeException("USER role not found"));
+        user.setRoles(Collections.singletonList(role));
 
-        userRepository.save(user);
+        UserEntity savedUser = userRepository.save(user);
 
-        return new ResponseEntity<>("User registered successfully!", HttpStatus.CREATED);
+        URI location = uriBuilder.path("/users/{id}").buildAndExpand(savedUser.getId()).toUri();
+        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+
     }
-
 }
