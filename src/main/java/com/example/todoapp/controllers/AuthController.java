@@ -7,19 +7,16 @@ import com.example.todoapp.models.Role;
 import com.example.todoapp.models.UserEntity;
 import com.example.todoapp.repository.RoleRepository;
 import com.example.todoapp.repository.UserRepository;
-import com.example.todoapp.security.JWTGenerator;
+import com.example.todoapp.security.JwtTokenProvider;
 import com.example.todoapp.dto.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +40,7 @@ public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    JWTGenerator jwtGenerator;
+    JwtTokenProvider jwtGenerator;
 
     @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDto loginDto) {
