@@ -7,10 +7,10 @@ import lombok.Getter;
 @Data
 @Getter
 public class AuthResponseDTO {
-    // The JWT access token
-    private String accessToken;
     // The type of token (Bearer for JWT)
     private String tokenType = "Bearer";
+    // The JWT access token
+    private String accessToken;
 
     public AuthResponseDTO(String accessToken) {
         this.accessToken = accessToken;
