@@ -2,8 +2,10 @@ package com.example.todoapp.repository;
 
 import com.example.todoapp.models.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+@Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByUsername(String username);
 
@@ -11,4 +13,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     boolean existsByEmail(String email);
 
+    UserEntity findByEmail(String email);
+    Optional<UserEntity> findUserByUserName(String username);
 }
