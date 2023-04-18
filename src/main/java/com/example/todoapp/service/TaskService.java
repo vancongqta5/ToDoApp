@@ -1,4 +1,4 @@
-package com.example.todoapp.service.impl;
+package com.example.todoapp.service;
 
 import com.example.todoapp.models.Task;
 
