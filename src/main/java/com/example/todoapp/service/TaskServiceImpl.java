@@ -2,33 +2,34 @@ package com.example.todoapp.service;
 
 import com.example.todoapp.models.Task;
 import com.example.todoapp.repository.TaskRepository;
+import com.example.todoapp.service.impl.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
-public class TaskService {
+public class TaskServiceImpl implements TaskService {
+
     @Autowired
     private TaskRepository taskRepository;
 
+    @Override
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
-        public List<Task> getTaskByName(String name) {
+
+    @Override
+    public List<Task> getTaskByName(String name) {
         return taskRepository.findByName(name);
     }
 
+    @Override
     public Task getTaskById(Long id) {
         return taskRepository.findById(id).orElse(null);
     }
 
+    @Override
     public Task saveTask(Task task) {
         return taskRepository.save(task);
     }
-
-    public void deleteTaskById(Long id) {
-        taskRepository.deleteById(id);
-    }
-
 }

@@ -2,7 +2,7 @@ package com.example.todoapp.controllers;
 
 import com.example.todoapp.models.Task;
 import com.example.todoapp.repository.TaskRepository;
-import com.example.todoapp.service.TaskService;
+import com.example.todoapp.service.TaskServiceImpl;
 import com.example.todoapp.exception.ResourceNotFoundException;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 @RequestMapping("/api/tasks")
 public class TaskController {
     @Autowired
-    private TaskService taskService;
+    private TaskServiceImpl taskService;
     @Autowired
     private TaskRepository taskRepository;
 
