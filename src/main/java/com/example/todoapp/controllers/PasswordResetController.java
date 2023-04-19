@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/passwordReset")
 @RequiredArgsConstructor
@@ -16,10 +20,12 @@ public class PasswordResetController {
     private final PasswordResetService passwordResetService;
 
     @PostMapping("/token")
-    public ResponseEntity<String> generateToken(@RequestParam("email") String email) {
+    public ResponseEntity<Map<String, Object>> generateToken(@RequestParam("email") String email) {
         PasswordResetToken token = passwordResetService.generateToken(email);
-//        return ResponseEntity.ok(token.getToken());
-        return ResponseEntity.status(HttpStatus.CREATED).body(token.getToken());
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("token", token.getToken());
+        responseBody.put("expiryDate", token.getExpiryDate());
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
     }
 
     @PostMapping("/reset")
