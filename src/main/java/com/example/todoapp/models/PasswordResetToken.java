@@ -21,5 +21,4 @@ public class PasswordResetToken {
     @JoinColumn(nullable = false, name = "user_id")
     private UserEntity user;
     private LocalDateTime expiryDate;
-    private boolean used;
 }
