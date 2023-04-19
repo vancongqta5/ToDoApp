@@ -79,7 +79,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         }
 
         // Change the user's password
-        Optional<UserEntity> user = userRepository.findUserByUserName(username);
+        Optional<UserEntity> user = userRepository.findByUsername(username);
         user.get().setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user.get());
     }
