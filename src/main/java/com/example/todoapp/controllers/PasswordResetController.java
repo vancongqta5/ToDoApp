@@ -18,7 +18,8 @@ public class PasswordResetController {
     @PostMapping("/token")
     public ResponseEntity<String> generateToken(@RequestParam("email") String email) {
         PasswordResetToken token = passwordResetService.generateToken(email);
-        return ResponseEntity.ok(token.getToken());
+//        return ResponseEntity.ok(token.getToken());
+        return ResponseEntity.status(HttpStatus.CREATED).body(token.getToken());
     }
 
     @PostMapping("/reset")
