@@ -10,7 +10,6 @@ import com.example.todoapp.repository.UserRepository;
 import com.example.todoapp.service.PasswordResetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,8 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,7 +33,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     public PasswordResetToken generateToken(String email) {
         UserEntity user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UserNotFoundException("User not found with email: " + email);
+            throw new UserNotFoundException(HttpStatus.NOT_FOUND.value(),"User not found with email: " + email);
         }
         PasswordResetToken token = new PasswordResetToken();
         token.setUser(user);

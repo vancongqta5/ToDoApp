@@ -1,11 +1,19 @@
 package com.example.todoapp.exception.userException;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import com.example.todoapp.exception.ErrorDetail;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class UserNotFoundException extends RuntimeException {
-    public UserNotFoundException(String message) {
-        super(message);
+@RequiredArgsConstructor
+@Getter
+public class UserNotFoundException extends RuntimeException{
+    private final ErrorDetail errorDetail;
+
+    public UserNotFoundException(int errorCode, String message) {
+        super();
+        this.errorDetail = new ErrorDetail().builder()
+                .errorCode(errorCode)
+                .message(message)
+                .build();
     }
 }
