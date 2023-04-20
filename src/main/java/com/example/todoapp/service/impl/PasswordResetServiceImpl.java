@@ -1,5 +1,6 @@
 package com.example.todoapp.service.impl;
 
+import com.example.todoapp.dto.RegisterDto;
 import com.example.todoapp.exception.InvalidPasswordException;
 import com.example.todoapp.exception.passwordException.CurrentPasswordNotMatch;
 import com.example.todoapp.exception.passwordException.ResetPasswordTokenNotValidException;
@@ -30,6 +31,15 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     private final PasswordResetTokenRepository tokenRepository;
     private final AuthenticationManager authenticationManager;
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private void validatePassword(String newPassword) {
+        if (newPassword == null || newPassword.isEmpty() || newPassword.contains(" ")) {
+            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password cannot be empty or contain spaces");
+        }
+
+        if (newPassword.length() < 3 || newPassword.length() > 20) {
+            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password must be between 3 and 20 characters");
+        }
+    }
     @Override
     public PasswordResetToken generateToken(String email) {
         UserEntity user = userRepository.findByEmail(email);
@@ -53,13 +63,15 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
             throw new ResetPasswordTokenNotValidException(HttpStatus.BAD_REQUEST.value(),"Token has expired");
         }
-        if (newPassword == null || newPassword.isEmpty() || newPassword.contains(" ")) {
-            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password cannot be empty or contain spaces");
-        }
-
-        if (newPassword.length() < 3 || newPassword.length() > 20) {
-            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password must be between 3 and 20 characters");
-        }
+        // Validate the new password
+        validatePassword(newPassword);
+//        if (newPassword == null || newPassword.isEmpty() || newPassword.contains(" ")) {
+//            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password cannot be empty or contain spaces");
+//        }
+//
+//        if (newPassword.length() < 3 || newPassword.length() > 20) {
+//            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password must be between 3 and 20 characters");
+//        }
 
         UserEntity user = resetToken.getUser();
         String hashedPassword = passwordEncoder.encode(newPassword);
@@ -86,6 +98,16 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             throw new CurrentPasswordNotMatch(HttpStatus.BAD_REQUEST.value(),"current pasword is not match.");
         }
 
+        // Validate the new password
+        validatePassword(newPassword);
+
+//        if (newPassword == null || newPassword.isEmpty() || newPassword.contains(" ")) {
+//            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password cannot be empty or contain spaces");
+//        }
+//
+//        if (newPassword.length() < 3 || newPassword.length() > 20) {
+//            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password must be between 3 and 20 characters");
+//        }
         // Change the user's password
         Optional<UserEntity> user = userRepository.findByUsername(username);
         user.get().setPassword(passwordEncoder.encode(newPassword));
