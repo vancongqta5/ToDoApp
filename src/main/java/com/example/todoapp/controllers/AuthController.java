@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -55,35 +59,38 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponseDTO(token));
     }
 
-    @PostMapping("register")
-    public ResponseEntity<ApiResponse> register(@RequestBody @Valid RegisterDto registerDto, BindingResult result,
-                                                UriComponentsBuilder uriBuilder) {
-        if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body(new ApiResponse(false, "Invalid request parameters"));
+@PostMapping("register")
+public ResponseEntity<ApiResponse> register(@RequestBody @Valid RegisterDto registerDto, BindingResult result, UriComponentsBuilder uriBuilder) {
+    if (result.hasErrors()) {
+        List<String> errors = new ArrayList<>();
+        for (FieldError error : result.getFieldErrors()) {
+            errors.add(error.getField() + " " + error.getDefaultMessage());
         }
-        String username = registerDto.getUsername();
-        if (userRepository.existsByUsername(username)) {
-            return ResponseEntity.badRequest().body(new ApiResponse(false, "Username '" + username + "' is already taken"));
-        }
+        return ResponseEntity.badRequest().body(new ApiResponse(false, errors.toString()));
+    }
 
-        String email = registerDto.getEmail();
-        if (userRepository.existsByEmail(email)) {
-            return ResponseEntity.badRequest().body(new ApiResponse(false, "Email '" + email + "' is already registered"));
-        }
+    String username = registerDto.getUsername();
+    if (userRepository.existsByUsername(username)) {
+        return ResponseEntity.badRequest().body(new ApiResponse(false, "Username '" + username + "' is already taken"));
+    }
 
-        UserEntity user = new UserEntity();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+    String email = registerDto.getEmail();
+    if (userRepository.existsByEmail(email)) {
+        return ResponseEntity.badRequest().body(new ApiResponse(false, "Email '" + email + "' is already registered"));
+    }
 
-        Role role = roleRepository.findByName("USER")
-                .orElseThrow(() -> new RuntimeException("USER role not found"));
-        user.setRoles(Collections.singletonList(role));
+    UserEntity user = new UserEntity();
+    user.setUsername(username);
+    user.setEmail(email);
+    user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-        UserEntity savedUser = userRepository.save(user);
+    Role role = roleRepository.findByName("USER")
+            .orElseThrow(() -> new RuntimeException("USER role not found"));
+    user.setRoles(Collections.singletonList(role));
 
-        URI location = uriBuilder.path("/users/{id}").buildAndExpand(savedUser.getId()).toUri();
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+    UserEntity savedUser = userRepository.save(user);
 
+    URI location = uriBuilder.path("/users/{id}").buildAndExpand(savedUser.getId()).toUri();
+    return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
 }
