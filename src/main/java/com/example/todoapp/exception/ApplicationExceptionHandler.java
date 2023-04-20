@@ -25,6 +25,11 @@ public class ApplicationExceptionHandler {
     public ErrorDetail handlerNotFoundException(UserNotFoundException ex){
         return ex.getErrorDetail();
     }
+    @ExceptionHandler(InvalidPasswordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDetail handlerNotFoundException(InvalidPasswordException ex){
+        return ex.getErrorDetail();
+    }
 
 //    @ExceptionHandler(TaskListNameIsExisException.class)
 //    @ResponseStatus(HttpStatus.CONFLICT)

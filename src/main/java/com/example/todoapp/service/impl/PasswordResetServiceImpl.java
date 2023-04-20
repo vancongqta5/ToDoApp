@@ -1,5 +1,6 @@
 package com.example.todoapp.service.impl;
 
+import com.example.todoapp.exception.InvalidPasswordException;
 import com.example.todoapp.exception.passwordException.CurrentPasswordNotMatch;
 import com.example.todoapp.exception.passwordException.ResetPasswordTokenNotValidException;
 import com.example.todoapp.exception.userException.UserNotFoundException;
@@ -51,6 +52,13 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
         if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
             throw new ResetPasswordTokenNotValidException(HttpStatus.BAD_REQUEST.value(),"Token has expired");
+        }
+        if (newPassword == null || newPassword.isEmpty() || newPassword.contains(" ")) {
+            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password cannot be empty or contain spaces");
+        }
+
+        if (newPassword.length() < 3 || newPassword.length() > 20) {
+            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password must be between 3 and 20 characters");
         }
 
         UserEntity user = resetToken.getUser();
