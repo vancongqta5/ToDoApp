@@ -1,5 +1,6 @@
 package com.example.todoapp.controllers;
 
+import com.example.todoapp.dto.ApiResponse;
 import com.example.todoapp.models.PasswordResetToken;
 import com.example.todoapp.service.PasswordResetService;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +30,17 @@ public class PasswordResetController {
     }
 
     @PostMapping("/reset")
-    public ResponseEntity<Void> resetPassword(@RequestParam("token") String token,
-                                              @RequestParam("password") String newPassword) {
+    public ResponseEntity<ApiResponse> resetPassword(@RequestParam("token") String token,
+                                                     @RequestParam("password") String newPassword) {
         passwordResetService.resetPassword(token, newPassword);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new ApiResponse(true, "Reset password successful"));
     }
 
     @PostMapping("/changePassword")
-    public ResponseEntity<Void> changePassword(@RequestParam("currentPassword") String currentPassword,
+    public ResponseEntity<ApiResponse> changePassword(@RequestParam("currentPassword") String currentPassword,
                                                @RequestParam("newPassword") String newPassword) {
         passwordResetService.changePassword(currentPassword,newPassword);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok().body(new ApiResponse(true, "Change password successful"));
+
     }
 }
