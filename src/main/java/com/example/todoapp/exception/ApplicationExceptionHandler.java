@@ -3,6 +3,7 @@ package com.example.todoapp.exception;
 import com.example.todoapp.exception.passwordException.CurrentPasswordNotMatch;
 import com.example.todoapp.exception.passwordException.ResetPasswordTokenNotValidException;
 import com.example.todoapp.exception.userException.UserNotFoundException;
+import com.example.todoapp.exception.userException.UserNotValidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,11 +16,11 @@ public class ApplicationExceptionHandler {
 //    public ErrorDetail handlerUserNameExistException(UserNameExistException ex){
 //        return ex.getErrorDetail();
 //    }
-//    @ExceptionHandler(UserNotValidException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorDetail handlerUserNotValidException(UserNotValidException ex){
-//        return ex.getErrorDetail();
-//    }
+    @ExceptionHandler(UserNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDetail handlerUserNotValidException(UserNotValidException ex){
+        return ex.getErrorDetail();
+    }
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorDetail handlerNotFoundException(UserNotFoundException ex){
