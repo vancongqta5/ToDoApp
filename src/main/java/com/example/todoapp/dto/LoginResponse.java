@@ -6,13 +6,13 @@ import lombok.Getter;
 // Lombok annotation to generate getters, setters, and other methods automatically
 @Data
 @Getter
-public class AuthResponseDTO {
+public class LoginResponse {
     // The type of token (Bearer for JWT)
     private String tokenType = "Bearer";
     // The JWT access token
     private String accessToken;
 
-    public AuthResponseDTO(String accessToken) {
+    public LoginResponse(String accessToken) {
         this.accessToken = accessToken;
     }
 }

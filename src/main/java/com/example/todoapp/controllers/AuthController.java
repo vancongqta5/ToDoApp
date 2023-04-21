@@ -1,8 +1,8 @@
 package com.example.todoapp.controllers;
 
 import com.example.todoapp.dto.ApiResponse;
-import com.example.todoapp.dto.AuthResponseDTO;
-import com.example.todoapp.dto.LoginDto;
+import com.example.todoapp.dto.LoginRequest;
+import com.example.todoapp.dto.LoginResponse;
 import com.example.todoapp.exception.userException.UserNotValidException;
 import com.example.todoapp.models.Role;
 import com.example.todoapp.models.UserEntity;
@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
@@ -44,20 +46,26 @@ public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    JwtTokenProvider jwtGenerator;
+    JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDto loginDto) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDto.getUsername(),
-                        loginDto.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return ResponseEntity.ok(new AuthResponseDTO(token));
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()));
+            // Nếu không xảy ra exception tức là thông tin hợp lệ
+            // Set thông tin authentication vào Security Context
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // Trả về token cho người dùng.
+            String token = jwtTokenProvider.generateToken(authentication);
+            return ResponseEntity.ok(new LoginResponse(token));
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "UserName or Password is not valid"));
+        }
     }
+
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody RegisterDto registerDto, BindingResult bindingResult, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
