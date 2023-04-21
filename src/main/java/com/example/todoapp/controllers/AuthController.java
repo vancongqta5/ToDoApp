@@ -48,22 +48,26 @@ public class AuthController {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+
+        Authentication authentication = null;
         try {
-            Authentication authentication = authenticationManager.authenticate(
+            authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
-                            loginRequest.getPassword()));
-            // Nếu không xảy ra exception tức là thông tin hợp lệ
-            // Set thông tin authentication vào Security Context
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            // Trả về token cho người dùng.
-            String token = jwtTokenProvider.generateToken(authentication);
-            return ResponseEntity.ok(new LoginResponse(token));
+                            loginRequest.getPassword()
+                    )
+            );
         } catch (BadCredentialsException ex) {
             return ResponseEntity.badRequest().body(new ApiResponse(false, "UserName or Password is not valid"));
         }
+                // Nếu không xảy ra exception tức là thông tin hợp lệ
+                // Set thông tin authentication vào Security Context
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+                // Trả về token cho người dùng.
+        String token = jwtTokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @PostMapping("/register")
