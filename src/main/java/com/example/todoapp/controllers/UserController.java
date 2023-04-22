@@ -5,7 +5,7 @@ import com.example.todoapp.dto.LoginRequest;
 import com.example.todoapp.dto.LoginResponse;
 import com.example.todoapp.exception.userException.UserNotValidException;
 import com.example.todoapp.models.Role;
-import com.example.todoapp.models.UserEntity;
+import com.example.todoapp.models.User;
 import com.example.todoapp.repository.RoleRepository;
 import com.example.todoapp.repository.UserRepository;
 import com.example.todoapp.security.JwtTokenProvider;
@@ -97,7 +97,7 @@ public class UserController {
             return ResponseEntity.badRequest().body(new ApiResponse(false, "Email '" + email + "' is already registered"));
         }
 
-        UserEntity user = new UserEntity();
+        User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
@@ -106,7 +106,7 @@ public class UserController {
                 .orElseThrow(() -> new RuntimeException("USER role not found"));
         user.setRoles(Collections.singletonList(role));
 
-        UserEntity savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         URI location = uriBuilder.path("/users/{id}").buildAndExpand(savedUser.getId()).toUri();
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));

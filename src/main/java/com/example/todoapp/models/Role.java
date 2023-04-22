@@ -27,6 +27,6 @@ public class Role {
                     CascadeType.REFRESH,
                     CascadeType.PERSIST
             }, fetch = FetchType.LAZY)
-    private List<UserEntity> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
 }

@@ -1,12 +1,11 @@
 package com.example.todoapp.service.impl;
 
-import com.example.todoapp.dto.RegisterDto;
 import com.example.todoapp.exception.InvalidPasswordException;
 import com.example.todoapp.exception.passwordException.CurrentPasswordNotMatch;
 import com.example.todoapp.exception.passwordException.ResetPasswordTokenNotValidException;
 import com.example.todoapp.exception.userException.UserNotFoundException;
 import com.example.todoapp.models.PasswordResetToken;
-import com.example.todoapp.models.UserEntity;
+import com.example.todoapp.models.User;
 import com.example.todoapp.repository.PasswordResetTokenRepository;
 import com.example.todoapp.repository.UserRepository;
 import com.example.todoapp.service.PasswordResetService;
@@ -42,7 +41,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     }
     @Override
     public PasswordResetToken generateToken(String email) {
-        UserEntity user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UserNotFoundException(HttpStatus.NOT_FOUND.value(),"User not found with email: " + email);
         }
@@ -73,7 +72,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 //            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password must be between 3 and 20 characters");
 //        }
 
-        UserEntity user = resetToken.getUser();
+        User user = resetToken.getUser();
         String hashedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(hashedPassword);
         userRepository.save(user);
@@ -109,7 +108,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 //            throw new InvalidPasswordException(HttpStatus.BAD_REQUEST.value(), "Password must be between 3 and 20 characters");
 //        }
         // Change the user's password
-        Optional<UserEntity> user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findByUsername(username);
         user.get().setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user.get());
     }
