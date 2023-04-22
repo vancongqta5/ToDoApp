@@ -9,7 +9,7 @@ import com.example.todoapp.models.User;
 import com.example.todoapp.repository.RoleRepository;
 import com.example.todoapp.repository.UserRepository;
 import com.example.todoapp.security.JwtTokenProvider;
-import com.example.todoapp.dto.RegisterDto;
+import com.example.todoapp.dto.UserRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,7 +70,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> register(@Valid @RequestBody RegisterDto registerDto, BindingResult bindingResult, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ApiResponse> register(@Valid @RequestBody UserRequestDto registerDto, BindingResult bindingResult, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
 

@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class RegisterDto {
+public class UserRequestDto {
     @NotBlank()
     @Size(min = 6, max = 20, message = "Username must be between 6 and 20 characters")
     private String username;
