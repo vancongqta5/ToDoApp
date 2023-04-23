@@ -83,7 +83,7 @@ public class UserController {
         }
 
         UserResponseDto userResponseDto = userService.register(userRequestDto);
-        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
 
     }
 }
