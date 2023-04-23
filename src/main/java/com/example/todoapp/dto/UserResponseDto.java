@@ -16,6 +16,6 @@ public class UserResponseDto {
     private String username;
     private String password;
     private String email;
-    private String rolenames;
+    private List<String> rolenames;
     
 }
