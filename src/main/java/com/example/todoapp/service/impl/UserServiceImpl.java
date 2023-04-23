@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,7 +23,6 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
 
     @Override
     public UserResponseDto register(UserRequestDto userRequestDto) {
@@ -39,8 +39,10 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
 
         UserResponseDto userResponseDto = new UserResponseDto();
+        userResponseDto.setId(savedUser.getId());
         userResponseDto.setUsername(savedUser.getUsername());
         userResponseDto.setEmail(savedUser.getEmail());
+        userResponseDto.setRolenames(savedUser.getRoles().stream().map(Role::getName).toList().toString());
 
         return userResponseDto;
     }
