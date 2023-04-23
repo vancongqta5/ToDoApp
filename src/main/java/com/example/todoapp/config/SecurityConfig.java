@@ -107,6 +107,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/passwordReset/reset")
                 .permitAll()
+                .antMatchers("/role/list","/admin/blockUser")
+                .hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated();
         // Add our custom JWT security filter
