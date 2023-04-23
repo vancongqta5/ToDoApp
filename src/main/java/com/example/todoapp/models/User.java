@@ -26,6 +26,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private Boolean locked = false;
+
     @ManyToMany(cascade =
             {
                     CascadeType.DETACH,
