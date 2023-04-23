@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setId(savedUser.getId());
         userResponseDto.setUsername(savedUser.getUsername());
         userResponseDto.setEmail(savedUser.getEmail());
-        userResponseDto.setRolenames(savedUser.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
-
+        userResponseDto.setRolenames(role.getName()); // set tên của role cho userResponseDto
         return userResponseDto;
     }
 }
