@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -17,5 +15,6 @@ public class UserResponseDto {
     private String password;
     private String email;
     private String rolenames;
-    
+    private Boolean locked;
+
 }
