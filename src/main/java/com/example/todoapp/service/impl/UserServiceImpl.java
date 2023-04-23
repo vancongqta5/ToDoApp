@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setId(savedUser.getId());
         userResponseDto.setUsername(savedUser.getUsername());
         userResponseDto.setEmail(savedUser.getEmail());
-//        userResponseDto.setPassword(savedUser.getPassword());
+        userResponseDto.setPassword(savedUser.getPassword());
         userResponseDto.setRolenames(role.getName()); // set tên của role cho userResponseDto
         return userResponseDto;
     }
