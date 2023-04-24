@@ -1,6 +1,12 @@
 package com.example.todoapp.dto;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
+
 
 @Data
 @AllArgsConstructor
@@ -10,6 +16,8 @@ import lombok.*;
 public class UserResponseDto {
     private Long id;
     private String username;
+    //ẩn password
+    @JsonIgnore
     private String password;
     private String email;
     private String rolenames;
