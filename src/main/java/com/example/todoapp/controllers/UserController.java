@@ -2,6 +2,7 @@ package com.example.todoapp.controllers;
 
 import com.example.todoapp.dto.*;
 import com.example.todoapp.exception.userException.UserNotValidException;
+import com.example.todoapp.models.Role;
 import com.example.todoapp.models.User;
 import com.example.todoapp.repository.RoleRepository;
 import com.example.todoapp.repository.UserRepository;
@@ -23,9 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -65,9 +65,26 @@ public class UserController {
         // Nếu không xảy ra exception tức là thông tin hợp lệ
         // Set thông tin authentication vào Security Context
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        // Trả về token cho người dùng.
+
+        // Trả về token và thông tin người dùng cho client
         String token = jwtTokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new LoginResponse(token));
+
+        // Lấy thông tin người dùng và tạo đối tượng UserResponseDto
+        User currentUser = userRepository.findByUsername(loginRequest.getUsername()).get();
+        UserResponseDto userResponseDto = new UserResponseDto();
+        userResponseDto.setId(currentUser.getId());
+        userResponseDto.setUsername(currentUser.getUsername());
+        userResponseDto.setEmail(currentUser.getEmail());
+//        userResponseDto.setPassword(currentUser.getPassword());
+        userResponseDto.setLocked(currentUser.getLocked());
+        //để chuyển đổi List thành string
+        List<Role> roles = currentUser.getRoles();
+        String roleNames = roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(", "));
+        userResponseDto.setRolenames(roleNames);
+
+        return ResponseEntity.ok(new LoginResponse(userResponseDto, token));
     }
 
     @PostMapping("/register")

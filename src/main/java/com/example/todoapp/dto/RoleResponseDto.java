@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 public class RoleResponseDto {
     private Long id;
+    private String roleName;
     private List<String> userNames;
-//    private List<String> users;
-
 }
