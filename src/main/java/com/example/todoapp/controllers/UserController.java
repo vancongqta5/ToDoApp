@@ -75,7 +75,7 @@ public class UserController {
         userResponseDto.setId(currentUser.getId());
         userResponseDto.setUsername(currentUser.getUsername());
         userResponseDto.setEmail(currentUser.getEmail());
-//        userResponseDto.setPassword(currentUser.getPassword());
+        userResponseDto.setPassword(currentUser.getPassword());
         userResponseDto.setLocked(currentUser.getLocked());
         //để chuyển đổi List thành string
         List<Role> roles = currentUser.getRoles();
