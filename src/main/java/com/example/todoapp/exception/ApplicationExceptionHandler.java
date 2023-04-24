@@ -2,6 +2,7 @@ package com.example.todoapp.exception;
 
 import com.example.todoapp.exception.passwordException.CurrentPasswordNotMatch;
 import com.example.todoapp.exception.passwordException.ResetPasswordTokenNotValidException;
+import com.example.todoapp.exception.userException.UserNameExistException;
 import com.example.todoapp.exception.userException.UserNotFoundException;
 import com.example.todoapp.exception.userException.UserNotValidException;
 import org.springframework.http.HttpStatus;
@@ -11,11 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
-//    @ExceptionHandler({UserNameExistException.class})
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public ErrorDetail handlerUserNameExistException(UserNameExistException ex){
-//        return ex.getErrorDetail();
-//    }
+    @ExceptionHandler({UserNameExistException.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorDetail handlerUserNameExistException(UserNameExistException ex){
+        return ex.getErrorDetail();
+    }
     @ExceptionHandler(UserNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDetail handlerUserNotValidException(UserNotValidException ex){

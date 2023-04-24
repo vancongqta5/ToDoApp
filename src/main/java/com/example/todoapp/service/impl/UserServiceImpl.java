@@ -2,6 +2,7 @@ package com.example.todoapp.service.impl;
 
 import com.example.todoapp.dto.UserRequestDto;
 import com.example.todoapp.dto.UserResponseDto;
+import com.example.todoapp.exception.userException.UserNameExistException;
 import com.example.todoapp.exception.userException.UserNotValidException;
 import com.example.todoapp.models.Role;
 import com.example.todoapp.models.User;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,13 +34,19 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
 
         // Kiểm tra xem username hoặc email đã tồn tại trong database chưa
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new UserNotValidException(HttpStatus.CONFLICT.value(), "Username already exists");
+        if (!userNameIsExist(userRequestDto.getUsername())) {
+            user.setUsername(userRequestDto.getUsername());
         }
-
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new UserNotValidException(HttpStatus.CONFLICT.value(), "Email already exists");
+        if (!emailIsExist(userRequestDto.getEmail())) {
+            user.setEmail(userRequestDto.getEmail());
         }
+//        if (userRepository.existsByUsername(user.getUsername())) {
+//            throw new UserNotValidException(HttpStatus.CONFLICT.value(), "Username already exists");
+//        }
+//
+//        if (userRepository.existsByEmail(user.getEmail())) {
+//            throw new UserNotValidException(HttpStatus.CONFLICT.value(), "Email already exists");
+//        }
 
         Role role = roleRepository.findByName("USER")
                 .orElseThrow(() -> new RuntimeException("USER role not found"));
@@ -54,5 +62,21 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setRolenames(role.getName()); // set tên của role cho userResponseDto
         userResponseDto.setLocked(savedUser.getLocked());
         return userResponseDto;
+    }
+    @Override
+    public boolean userNameIsExist(String userName) {
+        Optional<User> user = userRepository.findByUsername(userName);
+        if (user.isPresent()) {
+            throw new UserNameExistException(HttpStatus.CONFLICT.value(), " Username already exists - please enter a new one");
+        }
+        return false;
+    }
+    @Override
+    public boolean emailIsExist(String userName) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userName));
+        if (user.isPresent()) {
+            throw new UserNameExistException(HttpStatus.CONFLICT.value(), " Email already exists - please enter a new one");
+        }
+        return false;
     }
 }
