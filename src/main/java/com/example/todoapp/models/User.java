@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Entity
 @Table(name = "user")
 @Data
@@ -42,4 +44,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles = new ArrayList<>();
+    public List<String> getRoleNames() {
+        return roles.stream().map(Role::getName).collect(Collectors.toList());
+    }
 }

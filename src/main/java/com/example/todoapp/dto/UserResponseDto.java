@@ -2,13 +2,11 @@ package com.example.todoapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
 
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -23,6 +21,11 @@ public class UserResponseDto {
     private String rolenames;
     private Boolean locked;
 
-    public UserResponseDto(Long id, String username, String email, Boolean locked) {
+    public UserResponseDto(Long id, String username, String email, String rolenames, Boolean locked) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.rolenames = rolenames;
+        this.locked = locked;
     }
 }
