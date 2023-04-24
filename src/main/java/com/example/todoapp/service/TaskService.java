@@ -1,12 +1,20 @@
 package com.example.todoapp.service;
 
+import com.example.todoapp.dto.TaskRequestDto;
+import com.example.todoapp.dto.TaskResponseDto;
 import com.example.todoapp.models.Task;
 
 import java.util.List;
 
 public interface TaskService {
-    List<Task> getAllTasks();
-    List<Task> getTaskByName(String name);
-    Task getTaskById(Long id);
     Task saveTask(Task task);
+//    List<TaskResponseDto> getAllTasks();
+//    List<TaskResponseDto> getTasksByName(String name);
+//    TaskResponseDto getTaskById(Long id);
+//    TaskResponseDto createTask(TaskRequestDto taskRequestDto);
+//    TaskResponseDto updateTask(Long id, TaskRequestDto taskRequestDto);
+//    void deleteTaskById(Long id);
+//    Task convertToEntity(TaskRequestDto taskRequestDto);
+//    TaskResponseDto convertToResponseDto(Task task);
+
 }

@@ -3,7 +3,7 @@ package com.example.todoapp.dto;
 import lombok.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,12 +16,10 @@ public class TaskRequestDto {
     private String name;
     @Size(min = 0, max = 500)
     private String description;
-    private LocalDate createdTime;
-    private LocalDate completedTime;
+    private LocalDateTime createdTime;
+    private LocalDateTime completedTime;
+    private boolean completed;
 
-    public boolean isCompleted() {
-    }
-//    private Long taskListId;
 
 }
 

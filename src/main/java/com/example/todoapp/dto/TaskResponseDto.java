@@ -5,22 +5,27 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 public class TaskResponseDto {
-    private long id;
+    private Long id;
     private String name;
     private String description;
-    private LocalDate createdTime;
-    private LocalDate completedTime;
-    private Boolean isCompleted;
+    private LocalDateTime createdTime;
+    private LocalDateTime completedTime;
+    private boolean completed;
 
     public TaskResponseDto(Task task) {
+        this.id = task.getId();
+        this.name = task.getName();
+        this.description = task.getDescription();
+        this.createdTime = task.getCreatedTime();
+        this.completedTime = task.getCompletedTime();
+        this.completed = task.isCompleted();
     }
-//    private Long taskListId;
 }
 
