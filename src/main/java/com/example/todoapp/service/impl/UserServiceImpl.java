@@ -26,17 +26,18 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto register(UserRequestDto userRequestDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = new User();
+        //set username, mail, pw
         user.setUsername(userRequestDto.getUsername());
         user.setEmail(userRequestDto.getEmail());
         user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
 
         // Kiểm tra xem username hoặc email đã tồn tại trong database chưa
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new UserNotValidException(HttpStatus.BAD_REQUEST.value(), "Username already exists");
+            throw new UserNotValidException(HttpStatus.CONFLICT.value(), "Username already exists");
         }
 
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new UserNotValidException(HttpStatus.BAD_REQUEST.value(), "Email already exists");
+            throw new UserNotValidException(HttpStatus.CONFLICT.value(), "Email already exists");
         }
 
         Role role = roleRepository.findByName("USER")
@@ -49,8 +50,9 @@ public class UserServiceImpl implements UserService {
         userResponseDto.setId(savedUser.getId());
         userResponseDto.setUsername(savedUser.getUsername());
         userResponseDto.setEmail(savedUser.getEmail());
-        userResponseDto.setPassword(savedUser.getPassword());
+//        userResponseDto.setPassword(savedUser.getPassword());
         userResponseDto.setRolenames(role.getName()); // set tên của role cho userResponseDto
+        userResponseDto.setLocked(savedUser.getLocked());
         return userResponseDto;
     }
 }
