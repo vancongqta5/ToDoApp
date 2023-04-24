@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
@@ -20,6 +22,11 @@ public class AdminController {
     public ResponseEntity<UserResponseDto> getUserById(@RequestParam Long userId){
         UserResponseDto userResponseDto = adminService.getUserById(userId);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+    }
+    @GetMapping("/getAllUser")
+    public ResponseEntity<List<UserResponseDto>> getAllUser() {
+        List<UserResponseDto> users = adminService.getAllUser();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PutMapping("/blockUser")

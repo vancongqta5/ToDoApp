@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -21,6 +23,13 @@ public class AdminServiceImpl implements AdminService {
     public UserResponseDto getUserById(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(HttpStatus.NOT_FOUND.value(),"Can not find user with id "+ userId));
         return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), String.join(",", user.getRoleNames()), user.getLocked());
+    }
+    @Override
+    public List<UserResponseDto> getAllUser() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), String.join(",", user.getRoleNames()), user.getLocked()))
+                .collect(Collectors.toList());
     }
 
     @Override
