@@ -2,8 +2,7 @@ package com.example.todoapp.service.impl;
 
 import com.example.todoapp.dto.UserRequestDto;
 import com.example.todoapp.dto.UserResponseDto;
-import com.example.todoapp.exception.userException.UserNameExistException;
-import com.example.todoapp.exception.userException.UserNotValidException;
+import com.example.todoapp.exception.userException.ResourceExistException;
 import com.example.todoapp.models.Role;
 import com.example.todoapp.models.User;
 import com.example.todoapp.repository.RoleRepository;
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
     public boolean userNameIsExist(String userName) {
         Optional<User> user = userRepository.findByUsername(userName);
         if (user.isPresent()) {
-            throw new UserNameExistException(HttpStatus.CONFLICT.value(), " Username already exists - please enter a new one");
+            throw new ResourceExistException(HttpStatus.CONFLICT.value(), " Username already exists - please enter a new one");
         }
         return false;
     }
@@ -75,7 +74,7 @@ public class UserServiceImpl implements UserService {
     public boolean emailIsExist(String userName) {
         Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userName));
         if (user.isPresent()) {
-            throw new UserNameExistException(HttpStatus.CONFLICT.value(), " Email already exists - please enter a new one");
+            throw new ResourceExistException(HttpStatus.CONFLICT.value(), " Email already exists - please enter a new one");
         }
         return false;
     }

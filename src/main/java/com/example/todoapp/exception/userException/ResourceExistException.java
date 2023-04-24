@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class UserNameExistException extends RuntimeException{
+public class ResourceExistException extends RuntimeException{
     private final ErrorDetail errorDetail;
 
-    public UserNameExistException(int errorCode, String message) {
+    public ResourceExistException(int errorCode, String message) {
         super();
         this.errorDetail = new ErrorDetail().builder()
                 .errorCode(errorCode)
