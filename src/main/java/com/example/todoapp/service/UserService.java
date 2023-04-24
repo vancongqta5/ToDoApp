@@ -6,5 +6,4 @@ import com.example.todoapp.models.User;
 
 public interface UserService {
     UserResponseDto register(UserRequestDto userRequestDto);
-    User getUser(Long userId);
 }

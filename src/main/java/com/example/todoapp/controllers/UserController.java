@@ -2,6 +2,7 @@ package com.example.todoapp.controllers;
 
 import com.example.todoapp.dto.*;
 import com.example.todoapp.exception.userException.UserNotValidException;
+import com.example.todoapp.models.User;
 import com.example.todoapp.repository.RoleRepository;
 import com.example.todoapp.repository.UserRepository;
 import com.example.todoapp.security.JwtTokenProvider;
@@ -24,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -44,6 +46,10 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
+        if(user.isPresent() && user.get().getLocked()){
+            throw new UserNotValidException(HttpStatus.LOCKED.value(),"Your account has been locked by an administrator.");
+        }
 
         Authentication authentication = null;
         try {

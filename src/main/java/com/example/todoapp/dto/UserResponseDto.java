@@ -1,10 +1,8 @@
 package com.example.todoapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -17,4 +15,6 @@ public class UserResponseDto {
     private String rolenames;
     private Boolean locked;
 
+    public UserResponseDto(Long id, String username, String email, Boolean locked) {
+    }
 }
