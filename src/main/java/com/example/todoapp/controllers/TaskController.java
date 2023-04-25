@@ -29,7 +29,7 @@ public class TaskController {
         return taskService.getTaskById(id);
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<com.example.todoapp.dto.ApiResponse> deleteTaskById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> deleteTaskById(@PathVariable Long id) {
         taskService.deleteTaskById(id);
         return ResponseEntity.ok().body(new ApiResponse(true, "Task with id " + id + " has been deleted."));
     }
