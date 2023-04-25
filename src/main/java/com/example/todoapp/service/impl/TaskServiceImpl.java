@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -25,10 +26,6 @@ public class TaskServiceImpl implements TaskService {
         this.taskRepository = taskRepository;
     }
 
-    @Override
-    public Task saveTask(Task task) {
-        return taskRepository.save(task);
-    }
     @Override
     public Task getTaskById(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
@@ -48,63 +45,25 @@ public class TaskServiceImpl implements TaskService {
             throw new TaskNotFoundException(HttpStatus.NOT_FOUND.value(),"Task not found with id " + id);
         }
     }
-    //    @Override
-//    public List<TaskResponseDto> getAllTasks() {
-//        List<Task> tasks = taskRepository.findAll();
-//        return tasks.stream()
-//                .map(task -> {
-//                    TaskResponseDto taskResponseDto = new TaskResponseDto();
-//                    taskResponseDto.setId(task.getId());
-//                    taskResponseDto.setName(task.getName());
-//                    taskResponseDto.setDescription(task.getDescription());
-//                    taskResponseDto.setCreatedTime(task.getCreatedTime());
-//                    return taskResponseDto;
-//                })
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public List<TaskResponseDto> getTaskByName(String name) {
-//        List<Task> tasks = taskRepository.findByName(name);
-//        return tasks.stream()
-//                .map(task -> {
-//                    TaskResponseDto taskResponseDto = new TaskResponseDto();
-//                    taskResponseDto.setId(task.getId());
-//                    taskResponseDto.setName(task.getName());
-//                    taskResponseDto.setDescription(task.getDescription());
-//                    taskResponseDto.setCreatedTime(task.getCreatedTime());
-//                    return taskResponseDto;
-//                })
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public TaskResponseDto getTaskById(Long id) {
-//        return null;
-//    }
-//
-//    @Override
-//    public TaskResponseDto createTask(TaskRequestDto taskRequestDto) {
-//        return null;
-//    }
-//
-//    @Override
-//    public TaskResponseDto updateTask(Long id, TaskRequestDto taskRequestDto) {
-//        return null;
-//    }
-//
-//    @Override
-//    public void deleteTaskById(Long id) {
-//
-//    }
-//
-//    @Override
-//    public Task convertToEntity(TaskRequestDto taskRequestDto) {
-//        return null;
-//    }
-//
-//    @Override
-//    public TaskResponseDto convertToResponseDto(Task task) {
-//        return null;
-//    }
+    @Override
+    public TaskResponseDto createTask(TaskRequestDto taskRequestDto) {
+        Task task = new Task();
+        task.setName(taskRequestDto.getName());
+        task.setDescription(taskRequestDto.getDescription());
+        task.setCreatedTime(LocalDateTime.now());
+        task.setCompletedTime(taskRequestDto.getCompletedTime());
+        task.setCompleted(false);
+
+        Task savedTask = taskRepository.save(task);
+
+        TaskResponseDto taskResponseDto = new TaskResponseDto();
+        taskResponseDto.setId(savedTask.getId());
+        taskResponseDto.setName(savedTask.getName());
+        taskResponseDto.setDescription(savedTask.getDescription());
+        taskResponseDto.setCreatedTime(savedTask.getCreatedTime());
+        taskResponseDto.setCompletedTime(savedTask.getCompletedTime());
+        taskResponseDto.setCompleted(savedTask.isCompleted());
+
+        return taskResponseDto;
+    }
 }

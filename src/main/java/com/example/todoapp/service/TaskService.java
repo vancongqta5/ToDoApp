@@ -7,10 +7,9 @@ import com.example.todoapp.models.Task;
 import java.util.List;
 
 public interface TaskService {
-    Task saveTask(Task task);
     Task getTaskById(Long id);
-
     void deleteTaskById(Long id);
+    TaskResponseDto createTask(TaskRequestDto taskRequestDto);
 
 //    List<TaskResponseDto> getAllTasks();
 //    List<TaskResponseDto> getTasksByName(String name);

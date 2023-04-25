@@ -31,24 +31,7 @@ public class TaskController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public TaskResponseDto createTask(@RequestBody TaskRequestDto taskRequestDto) {
-        Task task = new Task();
-        task.setName(taskRequestDto.getName());
-        task.setDescription(taskRequestDto.getDescription());
-        task.setCreatedTime(LocalDateTime.now());
-        task.setCompletedTime(taskRequestDto.getCompletedTime());
-        task.setCompleted(false);
-
-        Task savedTask = taskService.saveTask(task);
-
-        TaskResponseDto taskResponseDto = new TaskResponseDto();
-        taskResponseDto.setId(savedTask.getId());
-        taskResponseDto.setName(savedTask.getName());
-        taskResponseDto.setDescription(savedTask.getDescription());
-        taskResponseDto.setCreatedTime(savedTask.getCreatedTime());
-        taskResponseDto.setCompletedTime(savedTask.getCompletedTime());
-        taskResponseDto.setCompleted(savedTask.isCompleted());
-
-        return taskResponseDto;
+        return taskService.createTask(taskRequestDto);
     }
     @GetMapping("/id/{id}")
     public Task getTaskById(@PathVariable Long id) {
