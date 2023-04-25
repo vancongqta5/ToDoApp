@@ -51,11 +51,11 @@ public class ApplicationExceptionHandler {
 //        return ex.getErrorDetail();
 //    }
 
-//    @ExceptionHandler(TaskNotFoundException.class)
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    public ErrorDetail handlerTaskNotFoundException(TaskNotFoundException ex){
-//        return ex.getErrorDetail();
-//    }
+    @ExceptionHandler(TaskNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorDetail handlerTaskNotFoundException(TaskNotFoundException ex){
+        return ex.getErrorDetail();
+    }
 //
 //    @ExceptionHandler(TaskIsExistException.class)
 //    @ResponseStatus(HttpStatus.CONFLICT)

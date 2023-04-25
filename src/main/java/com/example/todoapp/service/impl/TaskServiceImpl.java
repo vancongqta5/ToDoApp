@@ -2,10 +2,13 @@ package com.example.todoapp.service.impl;
 
 import com.example.todoapp.dto.TaskRequestDto;
 import com.example.todoapp.dto.TaskResponseDto;
+import com.example.todoapp.exception.ResourceNotFoundException;
+import com.example.todoapp.exception.TaskNotFoundException;
 import com.example.todoapp.models.Task;
 import com.example.todoapp.repository.TaskRepository;
 import com.example.todoapp.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,19 +21,23 @@ public class TaskServiceImpl implements TaskService {
         this.taskRepository = taskRepository;
     }
 
-//    @Override
-//    public Task getTaskById(Long id) {
-//        return taskRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id " + id));
-//    }
-
     @Override
     public Task saveTask(Task task) {
         return taskRepository.save(task);
     }
-}
-//
-//    @Override
+    @Override
+    public TaskResponseDto getTaskById(Long id) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(HttpStatus.NOT_FOUND.value(),"Task not found with id " + id));
+        TaskResponseDto taskResponseDto = new TaskResponseDto();
+        taskResponseDto.setId(task.getId());
+        taskResponseDto.setName(task.getName());
+        taskResponseDto.setDescription(task.getDescription());
+        taskResponseDto.setCreatedTime(task.getCreatedTime());
+        taskResponseDto.setCompletedTime(task.getCompletedTime());
+        taskResponseDto.setCompleted(task.isCompleted());
+        return taskResponseDto;
+    }
+    //    @Override
 //    public List<TaskResponseDto> getAllTasks() {
 //        List<Task> tasks = taskRepository.findAll();
 //        return tasks.stream()
@@ -89,4 +96,4 @@ public class TaskServiceImpl implements TaskService {
 //    public TaskResponseDto convertToResponseDto(Task task) {
 //        return null;
 //    }
-//}
+}
