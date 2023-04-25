@@ -70,7 +70,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponseDto updateTaskById(Long id, TaskRequestDto taskRequestDto) {
         // Check if task with given id exists
         Task existingTask = taskRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id " + id));
+                .orElseThrow(() -> new TaskNotFoundException(HttpStatus.NOT_FOUND.value(),"Task not found with id " + id));
 
         // Update task fields with request data
         existingTask.setName(taskRequestDto.getName());
@@ -80,5 +80,4 @@ public class TaskServiceImpl implements TaskService {
         Task updatedTask = taskRepository.save(existingTask);
         return new TaskResponseDto(updatedTask.getId(), updatedTask.getName(), updatedTask.getDescription(), updatedTask.isCompleted(), updatedTask.getCreatedTime(), updatedTask.getCompletedTime());
     }
-
 }
