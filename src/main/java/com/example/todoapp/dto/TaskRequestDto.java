@@ -18,8 +18,6 @@ public class TaskRequestDto {
     private String description;
     private LocalDateTime createdTime;
     private LocalDateTime completedTime;
-    private boolean completed;
-
 
 }
 

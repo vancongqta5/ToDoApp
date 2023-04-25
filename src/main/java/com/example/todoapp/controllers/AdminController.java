@@ -32,8 +32,7 @@ public class AdminController {
     @PutMapping("/blockUser")
     public ResponseEntity<UserResponseDto> blockUser(@RequestParam Long userId){
         UserResponseDto userResponseDto = adminService.blockUser(userId);
-        return new ResponseEntity<>(userResponseDto,HttpStatus.OK
-        );
+        return new ResponseEntity<>(userResponseDto,HttpStatus.LOCKED);
     }
 
 }
