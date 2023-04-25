@@ -66,4 +66,19 @@ public class TaskServiceImpl implements TaskService {
 
         return taskResponseDto;
     }
+    @Override
+    public TaskResponseDto updateTaskById(Long id, TaskRequestDto taskRequestDto) {
+        // Check if task with given id exists
+        Task existingTask = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id " + id));
+
+        // Update task fields with request data
+        existingTask.setName(taskRequestDto.getName());
+        existingTask.setDescription(taskRequestDto.getDescription());
+
+        // Save and return updated task
+        Task updatedTask = taskRepository.save(existingTask);
+        return new TaskResponseDto(updatedTask.getId(), updatedTask.getName(), updatedTask.getDescription(), updatedTask.isCompleted(), updatedTask.getCreatedTime(), updatedTask.getCompletedTime());
+    }
+
 }

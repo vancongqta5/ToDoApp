@@ -27,5 +27,8 @@ public class TaskResponseDto {
         this.completedTime = task.getCompletedTime();
         this.completed = task.isCompleted();
     }
+
+    public TaskResponseDto(Long id, String name, String description, boolean completed, LocalDateTime createdTime, LocalDateTime completedTime) {
+    }
 }
 
