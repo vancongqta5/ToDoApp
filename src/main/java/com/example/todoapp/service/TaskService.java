@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface TaskService {
     Task saveTask(Task task);
-    TaskResponseDto getTaskById(Long id);
+    Task getTaskById(Long id);
+
+    void deleteTaskById(Long id);
+
 //    List<TaskResponseDto> getAllTasks();
 //    List<TaskResponseDto> getTasksByName(String name);
 //    TaskResponseDto getTaskById(Long id);

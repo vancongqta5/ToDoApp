@@ -51,32 +51,16 @@ public class TaskController {
         return taskResponseDto;
     }
     @GetMapping("/id/{id}")
-    public TaskResponseDto getTaskById(@PathVariable Long id) {
+    public Task getTaskById(@PathVariable Long id) {
         return taskService.getTaskById(id);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteTaskById(@PathVariable Long id) {
+        taskService.deleteTaskById(id);
+        return ResponseEntity.ok().build();
     }
     }
 //        return taskService.getTaskById(id);
-
-//    @GetMapping("/getById")
-//    public ResponseEntity<TaskResponseDto> getTaskById(@PathVariable Long id) {
-//        Task task = taskService.getTaskById(id);
-//        if (task == null) {
-//            throw new ResourceNotFoundException("Task not found with id " + id);
-//        }
-//        TaskResponseDto taskResponseDto = new TaskResponseDto(task);
-//        return ResponseEntity.ok(taskResponseDto);
-//    }
-//    @GetMapping("/getByName")
-//    public ResponseEntity<List<Task>> getTasksByKeyword(@PathVariable String keyword) {
-//        List<Task> allTasks = taskService.getAllTasks();
-//        List<Task> filteredTasks = allTasks.stream()
-//                .filter(task -> task.getName().contains(keyword))
-//                .collect(Collectors.toList());
-//        if (filteredTasks.isEmpty()) {
-//            throw new ResourceNotFoundException("No tasks found with keyword " + keyword);
-//        }
-//        return ResponseEntity.ok(filteredTasks);
-//    }
 //
 //    @PatchMapping("patch/{id}")
 //    public ResponseEntity<TaskResponseDto> updateTaskByPatch(@PathVariable("id") Long id, @RequestBody TaskRequestDto taskRequestDto) {
