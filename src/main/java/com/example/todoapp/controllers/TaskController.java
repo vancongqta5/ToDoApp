@@ -33,7 +33,7 @@ public class TaskController {
         taskService.deleteTaskById(id);
         return ResponseEntity.ok().body(new ApiResponse(true, "Task with id " + id + " has been deleted."));
     }
-    @PutMapping("/{id}")
+    @PutMapping("/put/{id}")
     public ResponseEntity<TaskResponseDto> updateTaskById(@PathVariable Long id, @RequestBody TaskRequestDto taskRequestDto) {
         TaskResponseDto updatedTask = taskService.updateTaskById(id, taskRequestDto);
         return ResponseEntity.ok(updatedTask);

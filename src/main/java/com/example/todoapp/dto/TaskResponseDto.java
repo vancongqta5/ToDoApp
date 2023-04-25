@@ -19,16 +19,15 @@ public class TaskResponseDto {
     private LocalDateTime completedTime;
     private boolean completed;
 
-    public TaskResponseDto(Task task) {
-        this.id = task.getId();
-        this.name = task.getName();
-        this.description = task.getDescription();
-        this.createdTime = task.getCreatedTime();
-        this.completedTime = task.getCompletedTime();
-        this.completed = task.isCompleted();
-    }
-
+//    public TaskResponseDto(Long id, String name, String description, boolean completed, LocalDateTime createdTime, LocalDateTime completedTime) {
+//    }
     public TaskResponseDto(Long id, String name, String description, boolean completed, LocalDateTime createdTime, LocalDateTime completedTime) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.completed = completed;
+        this.createdTime = createdTime;
+        this.completedTime = completedTime;
     }
 }
 
