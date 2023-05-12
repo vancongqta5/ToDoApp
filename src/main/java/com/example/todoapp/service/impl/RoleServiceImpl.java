@@ -3,7 +3,7 @@ package com.example.todoapp.service.impl;
 
 import com.example.todoapp.models.Role;
 import com.example.todoapp.repository.RoleRepository;
-import com.example.todoapp.service.RoleService;
+import com.example.todoapp.service.iService.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

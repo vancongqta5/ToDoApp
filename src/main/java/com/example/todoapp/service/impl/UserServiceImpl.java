@@ -7,7 +7,7 @@ import com.example.todoapp.models.Role;
 import com.example.todoapp.models.User;
 import com.example.todoapp.repository.RoleRepository;
 import com.example.todoapp.repository.UserRepository;
-import com.example.todoapp.service.UserService;
+import com.example.todoapp.service.iService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

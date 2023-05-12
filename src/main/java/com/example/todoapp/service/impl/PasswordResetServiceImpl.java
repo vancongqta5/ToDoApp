@@ -8,7 +8,7 @@ import com.example.todoapp.models.PasswordResetToken;
 import com.example.todoapp.models.User;
 import com.example.todoapp.repository.PasswordResetTokenRepository;
 import com.example.todoapp.repository.UserRepository;
-import com.example.todoapp.service.PasswordResetService;
+import com.example.todoapp.service.iService.PasswordResetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;

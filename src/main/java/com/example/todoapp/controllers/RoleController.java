@@ -1,7 +1,7 @@
 package com.example.todoapp.controllers;
 
 import com.example.todoapp.models.Role;
-import com.example.todoapp.service.RoleService;
+import com.example.todoapp.service.iService.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.example.todoapp.controllers;
 
 import com.example.todoapp.dto.responseDto.UserResponseDto;
-import com.example.todoapp.service.AdminService;
+import com.example.todoapp.service.iService.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

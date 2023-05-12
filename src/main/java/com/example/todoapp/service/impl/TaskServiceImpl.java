@@ -5,7 +5,7 @@ import com.example.todoapp.dto.responseDto.TaskResponseDto;
 import com.example.todoapp.exception.TaskNotFoundException;
 import com.example.todoapp.models.Task;
 import com.example.todoapp.repository.TaskRepository;
-import com.example.todoapp.service.TaskService;
+import com.example.todoapp.service.iService.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

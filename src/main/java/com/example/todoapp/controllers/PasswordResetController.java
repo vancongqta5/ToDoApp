@@ -2,7 +2,7 @@ package com.example.todoapp.controllers;
 
 import com.example.todoapp.dto.responseDto.ApiResponse;
 import com.example.todoapp.models.PasswordResetToken;
-import com.example.todoapp.service.PasswordResetService;
+import com.example.todoapp.service.iService.PasswordResetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

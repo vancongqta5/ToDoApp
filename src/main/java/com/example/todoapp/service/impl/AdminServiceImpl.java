@@ -4,7 +4,7 @@ import com.example.todoapp.dto.responseDto.UserResponseDto;
 import com.example.todoapp.exception.userException.UserNotFoundException;
 import com.example.todoapp.models.User;
 import com.example.todoapp.repository.UserRepository;
-import com.example.todoapp.service.AdminService;
+import com.example.todoapp.service.iService.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
