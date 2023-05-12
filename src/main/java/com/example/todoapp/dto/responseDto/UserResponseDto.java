@@ -1,4 +1,4 @@
-package com.example.todoapp.dto;
+package com.example.todoapp.dto.responseDto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

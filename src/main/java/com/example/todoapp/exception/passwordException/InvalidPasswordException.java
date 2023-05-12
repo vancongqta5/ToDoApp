@@ -1,5 +1,6 @@
-package com.example.todoapp.exception;
+package com.example.todoapp.exception.passwordException;
 
+import com.example.todoapp.exception.ErrorDetail;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

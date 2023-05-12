@@ -1,4 +1,4 @@
-package com.example.todoapp.dto;
+package com.example.todoapp.dto.requestDto;
 
 import lombok.*;
 import javax.validation.constraints.NotEmpty;

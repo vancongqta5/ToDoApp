@@ -1,6 +1,7 @@
 package com.example.todoapp.exception;
 
 import com.example.todoapp.exception.passwordException.CurrentPasswordNotMatch;
+import com.example.todoapp.exception.passwordException.InvalidPasswordException;
 import com.example.todoapp.exception.passwordException.ResetPasswordTokenNotValidException;
 import com.example.todoapp.exception.userException.ResourceExistException;
 import com.example.todoapp.exception.userException.UserNotFoundException;

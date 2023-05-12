@@ -1,7 +1,7 @@
 package com.example.todoapp.service.impl;
 
-import com.example.todoapp.dto.UserRequestDto;
-import com.example.todoapp.dto.UserResponseDto;
+import com.example.todoapp.dto.requestDto.UserRequestDto;
+import com.example.todoapp.dto.responseDto.UserResponseDto;
 import com.example.todoapp.exception.userException.ResourceExistException;
 import com.example.todoapp.models.Role;
 import com.example.todoapp.models.User;

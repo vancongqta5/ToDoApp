@@ -1,6 +1,6 @@
 package com.example.todoapp.service.impl;
 
-import com.example.todoapp.dto.UserResponseDto;
+import com.example.todoapp.dto.responseDto.UserResponseDto;
 import com.example.todoapp.exception.userException.UserNotFoundException;
 import com.example.todoapp.models.User;
 import com.example.todoapp.repository.UserRepository;

@@ -1,11 +1,9 @@
 package com.example.todoapp.controllers;
 
-import com.example.todoapp.dto.ApiResponse;
-import com.example.todoapp.dto.TaskRequestDto;
-import com.example.todoapp.dto.TaskResponseDto;
-import com.example.todoapp.dto.UserResponseDto;
+import com.example.todoapp.dto.responseDto.ApiResponse;
+import com.example.todoapp.dto.requestDto.TaskRequestDto;
+import com.example.todoapp.dto.responseDto.TaskResponseDto;
 import com.example.todoapp.models.Task;
-import com.example.todoapp.repository.RoleRepository;
 import com.example.todoapp.repository.TaskRepository;
 import com.example.todoapp.service.impl.TaskServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

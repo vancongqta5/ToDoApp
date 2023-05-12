@@ -1,7 +1,7 @@
 package com.example.todoapp.service.impl;
 
-import com.example.todoapp.dto.TaskRequestDto;
-import com.example.todoapp.dto.TaskResponseDto;
+import com.example.todoapp.dto.requestDto.TaskRequestDto;
+import com.example.todoapp.dto.responseDto.TaskResponseDto;
 import com.example.todoapp.exception.TaskNotFoundException;
 import com.example.todoapp.models.Task;
 import com.example.todoapp.repository.TaskRepository;

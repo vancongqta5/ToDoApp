@@ -1,6 +1,5 @@
 package com.example.todoapp.controllers;
 
-import com.example.todoapp.dto.RoleResponseDto;
 import com.example.todoapp.models.Role;
 import com.example.todoapp.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

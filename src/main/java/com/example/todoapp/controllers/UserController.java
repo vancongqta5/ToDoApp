@@ -1,6 +1,10 @@
 package com.example.todoapp.controllers;
 
-import com.example.todoapp.dto.*;
+import com.example.todoapp.dto.requestDto.LoginRequest;
+import com.example.todoapp.dto.requestDto.UserRequestDto;
+import com.example.todoapp.dto.responseDto.ApiResponse;
+import com.example.todoapp.dto.responseDto.LoginResponse;
+import com.example.todoapp.dto.responseDto.UserResponseDto;
 import com.example.todoapp.exception.userException.UserNotValidException;
 import com.example.todoapp.models.Role;
 import com.example.todoapp.models.User;

@@ -1,6 +1,6 @@
 package com.example.todoapp.controllers;
 
-import com.example.todoapp.dto.ApiResponse;
+import com.example.todoapp.dto.responseDto.ApiResponse;
 import com.example.todoapp.models.PasswordResetToken;
 import com.example.todoapp.service.PasswordResetService;
 import lombok.RequiredArgsConstructor;

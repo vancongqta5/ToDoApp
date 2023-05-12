@@ -1,6 +1,6 @@
 package com.example.todoapp.service.impl;
 
-import com.example.todoapp.exception.InvalidPasswordException;
+import com.example.todoapp.exception.passwordException.InvalidPasswordException;
 import com.example.todoapp.exception.passwordException.CurrentPasswordNotMatch;
 import com.example.todoapp.exception.passwordException.ResetPasswordTokenNotValidException;
 import com.example.todoapp.exception.userException.UserNotFoundException;

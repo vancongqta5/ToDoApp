@@ -1,4 +1,4 @@
-package com.example.todoapp.dto;
+package com.example.todoapp.dto.responseDto;
 
 import com.example.todoapp.models.Task;
 import lombok.AllArgsConstructor;

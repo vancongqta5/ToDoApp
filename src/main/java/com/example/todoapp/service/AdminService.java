@@ -1,6 +1,6 @@
 package com.example.todoapp.service;
 
-import com.example.todoapp.dto.UserResponseDto;
+import com.example.todoapp.dto.responseDto.UserResponseDto;
 
 import java.util.List;
 
