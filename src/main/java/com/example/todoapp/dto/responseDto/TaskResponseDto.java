@@ -19,8 +19,6 @@ public class TaskResponseDto {
     private LocalDateTime completedTime;
     private boolean completed;
 
-//    public TaskResponseDto(Long id, String name, String description, boolean completed, LocalDateTime createdTime, LocalDateTime completedTime) {
-//    }
     public TaskResponseDto(Long id, String name, String description, boolean completed, LocalDateTime createdTime, LocalDateTime completedTime) {
         this.id = id;
         this.name = name;

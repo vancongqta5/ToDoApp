@@ -34,40 +34,11 @@ public class ApplicationExceptionHandler {
         return ex.getErrorDetail();
     }
 
-//    @ExceptionHandler(TaskListNameIsExisException.class)
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public ErrorDetail handlerTaskListNameIsExisException(TaskListNameIsExisException ex){
-//        return ex.getErrorDetail();
-//    }
-
-//    @ExceptionHandler(TaskListNotValidException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorDetail handlerTaskListNotValidException(TaskListNotValidException ex){
-//        return ex.getErrorDetail();
-//    }
-//
-//    @ExceptionHandler(TaskListNotFoundException.class)
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    public ErrorDetail handlerTaskListNotFoundException(TaskListNotFoundException ex){
-//        return ex.getErrorDetail();
-//    }
-
     @ExceptionHandler(TaskNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorDetail handlerTaskNotFoundException(TaskNotFoundException ex){
         return ex.getErrorDetail();
     }
-//
-//    @ExceptionHandler(TaskIsExistException.class)
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public ErrorDetail handlerTaskIsExistException(TaskIsExistException ex){
-//        return ex.getErrorDetail();
-//    }
-//    @ExceptionHandler(TaskIsNotValidException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorDetail handlerTaskIsNotValidException(TaskIsNotValidException ex){
-//        return ex.getErrorDetail();
-//    }
 
     @ExceptionHandler(CurrentPasswordNotMatch.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

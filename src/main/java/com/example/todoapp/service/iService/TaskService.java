@@ -14,12 +14,4 @@ public interface TaskService {
 
     List<TaskResponseDto> getAllTasks();
 
-//    List<TaskResponseDto> getTasksByName(String name);
-//    TaskResponseDto getTaskById(Long id);
-//    TaskResponseDto createTask(TaskRequestDto taskRequestDto);
-//    TaskResponseDto updateTask(Long id, TaskRequestDto taskRequestDto);
-//    void deleteTaskById(Long id);
-//    Task convertToEntity(TaskRequestDto taskRequestDto);
-//    TaskResponseDto convertToResponseDto(Task task);
-
 }

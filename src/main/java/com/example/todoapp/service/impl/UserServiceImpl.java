@@ -39,13 +39,6 @@ public class UserServiceImpl implements UserService {
         if (!emailIsExist(userRequestDto.getEmail())) {
             user.setEmail(userRequestDto.getEmail());
         }
-//        if (userRepository.existsByUsername(user.getUsername())) {
-//            throw new UserNotValidException(HttpStatus.CONFLICT.value(), "Username already exists");
-//        }
-//
-//        if (userRepository.existsByEmail(user.getEmail())) {
-//            throw new UserNotValidException(HttpStatus.CONFLICT.value(), "Email already exists");
-//        }
 
         Role role = roleRepository.findByName("USER")
                 .orElseThrow(() -> new RuntimeException("USER role not found"));
