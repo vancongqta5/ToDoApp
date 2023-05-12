@@ -3,13 +3,17 @@ package com.example.todoapp.controllers;
 import com.example.todoapp.dto.ApiResponse;
 import com.example.todoapp.dto.TaskRequestDto;
 import com.example.todoapp.dto.TaskResponseDto;
+import com.example.todoapp.dto.UserResponseDto;
 import com.example.todoapp.models.Task;
+import com.example.todoapp.repository.RoleRepository;
 import com.example.todoapp.repository.TaskRepository;
 import com.example.todoapp.service.impl.TaskServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -37,6 +41,11 @@ public class TaskController {
     public ResponseEntity<TaskResponseDto> updateTaskById(@PathVariable Long id, @RequestBody TaskRequestDto taskRequestDto) {
         TaskResponseDto updatedTask = taskService.updateTaskById(id, taskRequestDto);
         return ResponseEntity.ok(updatedTask);
+    }
+    @GetMapping("/getAllTasks")
+    public ResponseEntity<List<TaskResponseDto>> findAllTasks() {
+        List<TaskResponseDto> taskResponseDtos = taskService.getAllTasks();
+        return ResponseEntity.ok(taskResponseDtos);
     }
 }
 
